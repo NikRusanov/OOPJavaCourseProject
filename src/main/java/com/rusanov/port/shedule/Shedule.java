@@ -26,7 +26,7 @@ import java.util.*;
     private ShipSchedule getRandomSchedule() {
 
         int plannedUnloading =  2;
-
+//TODO gen plannedUnloading, gen unloadingEndDay
         Ship newShip = getNewShip();
         Date exceptedArrival = generateRandomArrival(startModelingDay);
         Date actualArrivalDate = generateRandomArrival(exceptedArrival);
