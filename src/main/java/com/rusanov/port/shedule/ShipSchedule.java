@@ -1,9 +1,13 @@
 package com.rusanov.port.shedule;
 
+import com.rusanov.UtilsDate;
+
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
-public class ShipSchedule {
+public class ShipSchedule  {
 
     private Ship arrivedShip;
 
@@ -11,36 +15,57 @@ public class ShipSchedule {
     private Date realArrival;
 
     private int plannedUnloadingDays;
+    private int unloadingDelay;
 
-   private Date unloadingStartDay;
-   //Возможно убрать, потому что можно высчитать с unloadingStartDay + plannedUnloadingDays
-   private Date unloadingEndDay;
-   private boolean isUnloading;
-   // realArrival до начала загразки
-   private Integer totalDaysPassedInQueue;
-   private double penalty;
+    private Date unloadingStartDay;
+    private Date plannedUnloadingEndDay;
+
+
+
+
+    private Date realUnloadingEndDay;
+
+    private boolean isUnloading;
+
+
+    private Integer totalDaysPassedInQueue;
+    private double penalty;
+
+    public Date getRealUnloadingEndDay() {
+        return realUnloadingEndDay;
+    }
+
+    public void setRealUnloadingEndDay(Date realUnloadingEndDay) {
+        this.realUnloadingEndDay = realUnloadingEndDay;
+    }
 
     public ShipSchedule(Ship ship,
                         Date exceptedArrival,
                         Date realArrival,
-                        int plannedUnloadingDays) {
-        this.arrivedShip = ship; 
+                        int plannedUnloadingDays,
+                        int unloadingDelay) {
+        this.arrivedShip = ship;
         this.exceptedArrival = exceptedArrival;
         this.realArrival = realArrival;
         this.plannedUnloadingDays = plannedUnloadingDays;
-        this.unloadingStartDay = realArrival;
+        this.unloadingDelay = unloadingDelay;
 
-        this.unloadingEndDay = getEndDate(exceptedArrival, plannedUnloadingDays);
+        this.plannedUnloadingEndDay = addDaysInDate(exceptedArrival, plannedUnloadingDays);
         this.isUnloading = false;
         this.totalDaysPassedInQueue = 0;
         this.penalty = 0;
     }
 
-    private Date getEndDate(Date StartDate, int countOfDates) {
+    private Date addDaysInDate(Date dateToAdd, int add) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(realArrival);
-        cal.add(Calendar.DATE, plannedUnloadingDays );
+        cal.setTime(dateToAdd);
+        cal.add(Calendar.DATE, add );
         return cal.getTime();
+    }
+
+    private int calculateUnloadingDelay() {
+        Random random = new Random();
+        return random.nextInt(10);
     }
 
     public Ship getArrivedShip() {
@@ -84,12 +109,14 @@ public class ShipSchedule {
         this.unloadingStartDay = unloadingStartDay;
     }
 
-    public Date getUnloadingEndDay() {
-        return unloadingEndDay;
+
+
+    public Date getPlannedUnloadingEndDay() {
+        return plannedUnloadingEndDay;
     }
 
-    public void setUnloadingEndDay(Date unloadingEndDay) {
-        this.unloadingEndDay = unloadingEndDay;
+    public void setPlannedUnloadingEndDay(Date plannedUnloadingEndDay) {
+        this.plannedUnloadingEndDay = plannedUnloadingEndDay;
     }
 
     public boolean isUnloading() {
@@ -104,6 +131,10 @@ public class ShipSchedule {
         return totalDaysPassedInQueue;
     }
 
+    public void addTotalDaysInQueue() {
+        totalDaysPassedInQueue+=1;
+    }
+
     public void setTotalDaysPassedInQueue(Integer totalDaysPassedInQueue) {
         this.totalDaysPassedInQueue = totalDaysPassedInQueue;
     }
@@ -112,8 +143,17 @@ public class ShipSchedule {
         return penalty;
     }
 
+    //TODO отнимаем оставшиеся дни до разгрузки
+    // Возможно для этого завести отдельное поле (см. строку 14)
+
     public void setPenalty(double penalty) {
         this.penalty = penalty;
+    }
+
+    public  void calculatePenalty(Date realDate) {
+        long daysDelay = 0 ;
+             daysDelay = ChronoUnit.DAYS.between(plannedUnloadingEndDay.toInstant(), realDate.toInstant());
+             penalty = daysDelay * 1000;
     }
 
 
@@ -125,10 +165,21 @@ public class ShipSchedule {
                 "\n realArrival=" + realArrival +
                 "\n plannedUnloadingDays=" + plannedUnloadingDays +
                 "\n unloadingStartDay=" + unloadingStartDay +
-                "\n unloadingEndDay=" + unloadingEndDay +
+                "\n plannedUnloadingEndDay=" + plannedUnloadingEndDay +
+                "\n calculated unloading Date =" + getUnloadingDateWithWithDelay() +
+                "\n real unloading Date =" + realUnloadingEndDay +
                 "\n isUnloading=" + isUnloading +
                 "\n totalDaysPassedInQueue=" + totalDaysPassedInQueue +
                 "\n penalty=" + penalty +
-                '\n';
+                "\n delay=" + unloadingDelay;
+    }
+
+
+    public boolean isArrival (Date currentDate) {
+        return  currentDate.after(realArrival) || (currentDate.compareTo(realArrival) >= 0);
+    }
+
+    public Date getUnloadingDateWithWithDelay() {
+        return UtilsDate.addDays(plannedUnloadingEndDay, unloadingDelay);
     }
 }

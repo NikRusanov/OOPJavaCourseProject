@@ -18,15 +18,22 @@ public class Ship {
     public double getCargoWeight() {
         return cargoWeight;
     }
-
+    public CargoType getType() {
+        return type;
+    }
     public void setCargoWeight(double weight) {
         cargoWeight = weight;
     }
 
     @Override
     public String toString() {
-        return String.format("Судно %s \n" +
-                " Тип: %s" +
-                " \n Вес: %5.2f", shipName, type, cargoWeight);
+        return String.format("""
+                Судно:%s\s
+                 Тип: %s\s
+                 Вес: %5.2f""", shipName, type, cargoWeight);
+    }
+
+    public void setName(String name) {
+        shipName = name;
     }
 }
