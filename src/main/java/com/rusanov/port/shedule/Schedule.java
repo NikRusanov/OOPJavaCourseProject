@@ -32,6 +32,25 @@ public class Schedule {
     }
 
 
+    public Schedule(Schedule old) {
+        List<ShipSchedule> newSchedule = new ArrayList<>();
+        for (var oldShipSchedules : old.getSchedule()) {
+            Ship oldShip = oldShipSchedules.getArrivedShip();
+            Ship newShip = new Ship(oldShip.getShipName(), oldShip.getCargoWeight(), oldShip.getType());
+
+            newSchedule.add(new ShipSchedule(newShip,
+                    new Date( oldShipSchedules.getExceptedArrival().getTime()),
+                    new Date( oldShipSchedules.getRealArrival().getTime()),
+                    oldShipSchedules.getPlannedUnloadingDays(),
+                    oldShipSchedules.getDelay()));
+        }
+            startModelingDate = new Date(old.getStartModelingDate().getTime());
+            schedule = new ArrayList<>(newSchedule);
+
+    }
+
+
+
 
     public long calculateTotalPenalties() {
         long totalPenalties = 0;

@@ -8,7 +8,7 @@ import java.util.Date;
 public class PortTest {
     @Test
     public void modelingTest() {
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+
         Date date = new Date(System.currentTimeMillis());
         Schedule schedule = new Schedule(5, date);
         System.out.println(schedule);
@@ -17,6 +17,21 @@ public class PortTest {
 
        port.modeling();
         System.out.println("end");
+    }
+
+    @Test
+    public void scheduleCopyTest() {
+        Date date = new Date(System.currentTimeMillis());
+        Schedule schedule = new Schedule(5, date);
+        Schedule scheduleCopy = new Schedule(schedule);
+        Port port = new Port(schedule, 1,1,1);
+
+        port.modeling();
+        System.out.println("end");
+        System.out.println("old Schedule " + schedule);
+        System.out.println("===============================" );
+        System.out.println("new Schedule " + scheduleCopy);
+
     }
 
 }

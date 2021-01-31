@@ -182,4 +182,8 @@ public class ShipSchedule  {
     public Date getUnloadingDateWithWithDelay() {
         return UtilsDate.addDays(plannedUnloadingEndDay, unloadingDelay);
     }
+
+    public int getDelay() {
+        return unloadingDelay;
+    }
 }
