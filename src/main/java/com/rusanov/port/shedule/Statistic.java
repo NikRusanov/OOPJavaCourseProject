@@ -24,14 +24,22 @@ public class Statistic {
     private long totalContainerPenalty;
     private long totalLiquidPenalty;
 
+
+
     public Statistic(List<ShipSchedule> schedules) {
         this.scheduleDays = schedules;
+        init();
+    }
+
+
+    public void init() {
         setAllPenaltiesByTypes();
         setTotalPenalties();
         calculateQueueStatistic();
         calculateDelayStatistic();
         calculateUnloadingShips();
     }
+
 
     private void calculateUnloadingShips() {
         unloadedShips = scheduleDays
@@ -126,5 +134,4 @@ public class Statistic {
                 "\nШтраф по жидким грузам: " + totalLiquidPenalty +
                 "\nИтоговый Штраф:" + totalPenalty;
     }
-
 }

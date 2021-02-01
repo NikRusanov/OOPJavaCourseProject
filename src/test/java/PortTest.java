@@ -24,6 +24,9 @@ public class PortTest {
 
         Port port = new Port(schedule, 1, 10, 1);
         port.modeling();
+
+        Port port1 = new Port(new Schedule(schedule), 1, 10, 1);
+        port1.modeling();
         boolean isModeling = true;
 //Изменения в кранах
    //     while (isModeling) {
