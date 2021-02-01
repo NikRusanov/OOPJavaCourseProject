@@ -20,6 +20,8 @@ public class Port {
     private Date currentDate;
 
 
+    private Statistic statistic;
+
 
 
     public Port(Schedule schedule, int bulkCranesCount, int liquidCranesCount, int containerCranesCount) {
@@ -37,7 +39,7 @@ public class Port {
         cranes.put(CargoType.BULK, new ArrayList<>());
         addCranes(CargoType.BULK, bulkCranesCount);
         cranes.put(CargoType.LIQUID, new ArrayList<>());
-        addCranes(CargoType.LIQUID, bulkCranesCount);
+        addCranes(CargoType.LIQUID, liquidCranesCount);
         cranes.put(CargoType.CONTAINER, new ArrayList<>());
         addCranes(CargoType.CONTAINER, containerCranesCount);
 
@@ -201,8 +203,12 @@ public class Port {
 
 
     private void calculateStatistic() {
-        Statistic statistic = new Statistic(getAllSchedulesAfterUnload());
+        statistic = new Statistic(getAllSchedulesAfterUnload());
         System.out.println(statistic);
+    }
+
+    public Statistic getStatistic() {
+        return statistic;
     }
 
     private  List<ShipSchedule> getAllSchedulesAfterUnload() {
@@ -221,6 +227,18 @@ public class Port {
     }
 
 
+    public long getCranesCost(CargoType type) {
+        return cranes.get(type)
+                .stream()
+                .mapToLong(Crane::getCost)
+                .sum();
+    }
 
 
+    public long getTotalPenaltyByType(CargoType type) {
+        if(statistic == null) {
+            return 0;
+        }
+        return this.statistic.calculatePenaltiesByType(type);
+    }
 }

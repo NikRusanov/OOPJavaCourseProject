@@ -10,13 +10,16 @@ public  class  Crane {
     private boolean busy;
     private    Long id;
     private  double unloadSpeed;
-    private final double cost;
+    private final long cost;
 
     private Ship shipToUnload;
 
 
+    public long getCost() {
+        return cost;
+    }
 
-    public Crane(CargoType type, double unloadSpeed, double cost) {
+    public Crane(CargoType type, double unloadSpeed, long cost) {
         this.type = type;
         this.busy = false;
         this.unloadSpeed = unloadSpeed;

@@ -50,7 +50,7 @@ public class Statistic {
                 calculatePenaltiesByType(CargoType.LIQUID);
     }
 
-    private long calculatePenaltiesByType(CargoType type) {
+    public long calculatePenaltiesByType(CargoType type) {
         return scheduleDays
                 .stream()
                 .filter(shipSchedule -> (shipSchedule.getArrivedShip().getType() == type))
