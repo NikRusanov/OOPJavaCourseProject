@@ -1,17 +1,17 @@
-package com.rusanov;
+package com.rusanov.port.shedule;
 
+import com.rusanov.UtilsDate;
 import com.rusanov.cranes.Crane;
-import com.rusanov.port.shedule.CargoType;
-import com.rusanov.port.shedule.Schedule;
-import com.rusanov.port.shedule.Ship;
-import com.rusanov.port.shedule.ShipSchedule;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 public class Port {
 
 
-    Schedule plannedSchedule;
+    private Schedule plannedSchedule;
 
     private HashMap<CargoType, List<Crane>> cranes;
 
@@ -19,9 +19,12 @@ public class Port {
 
     private Date currentDate;
 
+
+
+
     public Port(Schedule schedule, int bulkCranesCount, int liquidCranesCount, int containerCranesCount) {
         unloaded = new ArrayList<>();
-        initCranes(bulkCranesCount, liquidCranesCount, bulkCranesCount);
+        initCranes(bulkCranesCount, liquidCranesCount, containerCranesCount);
         this.plannedSchedule = schedule;
         currentDate = new Date(plannedSchedule.getStartModelingDate().getTime());
     }
@@ -29,14 +32,14 @@ public class Port {
 
 
 
-    private void initCranes(int bulkCranesCount, int liquidCranesCount, int cranesCount) {
+    private void initCranes(int bulkCranesCount, int liquidCranesCount, int containerCranesCount) {
         cranes = new HashMap<>();
         cranes.put(CargoType.BULK, new ArrayList<>());
         addCranes(CargoType.BULK, bulkCranesCount);
         cranes.put(CargoType.LIQUID, new ArrayList<>());
         addCranes(CargoType.LIQUID, bulkCranesCount);
         cranes.put(CargoType.CONTAINER, new ArrayList<>());
-        addCranes(CargoType.CONTAINER, bulkCranesCount);
+        addCranes(CargoType.CONTAINER, containerCranesCount);
 
     }
 
@@ -107,53 +110,21 @@ public class Port {
 
         }
 
-        long totalPenalty = 0 ;
-        long totalBulkPenalty = 0 ;
-        long totalContainerPenalty = 0 ;
-        long totalLiquidPenalty = 0 ;
-        if (! plannedSchedule.getSchedule().isEmpty()) {
             plannedSchedule.calculateEveryPenalty(currentDate);
-        }
+
 
 
         for (var elem : unloaded) {
             elem.calculatePenalty(elem.getRealUnloadingEndDay());
         }
 
-        totalBulkPenalty = getPenaltiesByType(CargoType.BULK, plannedSchedule.getSchedule()) +
-                getPenaltiesByType(CargoType.BULK, unloaded);
-        totalContainerPenalty = getPenaltiesByType(CargoType.CONTAINER, plannedSchedule.getSchedule()) +
-                getPenaltiesByType(CargoType.CONTAINER, unloaded);
-        totalLiquidPenalty = getPenaltiesByType(CargoType.LIQUID, plannedSchedule.getSchedule()) +
-                getPenaltiesByType(CargoType.LIQUID, unloaded);
-
-
-
-
-        System.out.println("===================================================================");
-        System.out.println("NOT UNLOADED SCHEDULE:");
-        System.out.println(plannedSchedule);
-        System.out.println("===================================================================");
-        System.out.println("UNLOADED SCHEDULE:");
-        System.out.println(unloaded);
-
-
-        System.out.println("\nTotal Bulk penalty: " + totalBulkPenalty);
-        System.out.println("Total Container penalty: " + totalContainerPenalty);
-        System.out.println("Total Liquid penalty: " + totalLiquidPenalty);
-        totalPenalty = totalBulkPenalty + totalContainerPenalty + totalLiquidPenalty;
-        System.out.println("Total penalty " + totalPenalty) ;
-
-
+        calculateStatistic();
 
     }
 
-    private long getPenaltiesByType(CargoType type, List<ShipSchedule> schedules) {
-        return schedules
-                .stream()
-                .filter(shipSchedule -> (shipSchedule.getArrivedShip().getType() == type))
-                .mapToLong(shipSchedule -> (long) shipSchedule.getPenalty()).sum();
-    }
+
+
+
 
     private void debugPrintCranes() {
         cranes
@@ -226,4 +197,30 @@ public class Port {
         }
         return false;
     }
+
+
+
+    private void calculateStatistic() {
+        Statistic statistic = new Statistic(getAllSchedulesAfterUnload());
+        System.out.println(statistic);
+    }
+
+    private  List<ShipSchedule> getAllSchedulesAfterUnload() {
+        List<ShipSchedule> allSchedules   = new ArrayList<>();
+        List<ShipSchedule>  notUnloadedShips =  plannedSchedule.getSchedule();
+        if(!(notUnloadedShips == null || notUnloadedShips.isEmpty()) ) {
+            allSchedules.addAll(notUnloadedShips);
+        }
+
+        if(!(unloaded == null || unloaded.isEmpty())) {
+            allSchedules.addAll(unloaded);
+        }
+
+        return allSchedules;
+
+    }
+
+
+
+
 }

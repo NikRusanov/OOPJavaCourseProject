@@ -1,8 +1,8 @@
 package com.rusanov.port.shedule;
 
 import com.rusanov.UtilsDate;
+import org.jetbrains.annotations.NotNull;
 
-import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -143,8 +143,6 @@ public class ShipSchedule  {
         return penalty;
     }
 
-    //TODO отнимаем оставшиеся дни до разгрузки
-    // Возможно для этого завести отдельное поле (см. строку 14)
 
     public void setPenalty(double penalty) {
         this.penalty = penalty;
@@ -152,8 +150,8 @@ public class ShipSchedule  {
 
     public  void calculatePenalty(Date realDate) {
         long daysDelay = 0 ;
-             daysDelay = ChronoUnit.DAYS.between(plannedUnloadingEndDay.toInstant(), realDate.toInstant());
-             penalty = daysDelay * 1000;
+        daysDelay = UtilsDate.daysBetween(plannedUnloadingEndDay, realDate);
+        penalty = daysDelay * 1000;
     }
 
 
@@ -175,7 +173,7 @@ public class ShipSchedule  {
     }
 
 
-    public boolean isArrival (Date currentDate) {
+    public boolean isArrival (@NotNull Date currentDate) {
         return  currentDate.after(realArrival) || (currentDate.compareTo(realArrival) >= 0);
     }
 

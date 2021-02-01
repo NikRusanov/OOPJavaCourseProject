@@ -1,8 +1,7 @@
-import com.rusanov.Port;
+import com.rusanov.port.shedule.Port;
 import com.rusanov.port.shedule.Schedule;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PortTest {

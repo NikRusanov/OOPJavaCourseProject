@@ -1,6 +1,6 @@
 package com.rusanov.main;
 
-import com.rusanov.Port;
+import com.rusanov.port.shedule.Port;
 import com.rusanov.port.shedule.Schedule;
 
 import java.text.SimpleDateFormat;

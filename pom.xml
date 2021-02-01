@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <properties>
         <maven.compiler.release>15</maven.compiler.release>
+        <maven.compiler.debug>15</maven.compiler.debug>
     </properties>
     <groupId>org.example</groupId>
     <artifactId>OOPCurseProject</artifactId>
@@ -20,12 +21,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
-
     </dependencies>
 
 

@@ -52,13 +52,6 @@ public class Schedule {
 
 
 
-    public long calculateTotalPenalties() {
-        long totalPenalties = 0;
-        for(var scheduleDay : schedule) {
-            totalPenalties+=scheduleDay.getPenalty();
-        }
-        return totalPenalties;
-    }
 
     public void calculateEveryPenalty(Date date) {
         for(var scheduleDay : schedule) {
