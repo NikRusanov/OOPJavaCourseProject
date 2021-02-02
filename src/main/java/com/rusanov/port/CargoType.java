@@ -1,4 +1,4 @@
-package com.rusanov.port.shedule;
+package com.rusanov.port;
 
 public enum CargoType {
     LIQUID("Жидкий",24000),

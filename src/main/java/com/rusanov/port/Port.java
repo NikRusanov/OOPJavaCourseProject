@@ -1,7 +1,9 @@
-package com.rusanov.port.shedule;
+package com.rusanov.port;
 
 import com.rusanov.UtilsDate;
 import com.rusanov.cranes.Crane;
+import com.rusanov.port.schedule.Schedule;
+import com.rusanov.port.schedule.ShipSchedule;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +81,7 @@ public class Port {
                                 System.out.println("==========Added to unload!!!!!===========");
                                 System.out.println("=========================================");
                                 System.out.println("Unloading Ship: " + currentSchedule.getArrivedShip().getShipName());
-                                System.out.println("Current Crane:\n" + crane);
+                                //System.out.println("Current Crane:\n" + crane);
                                 crane.setShip(currentSchedule.getArrivedShip());
                                 currentSchedule.setUnloadingStartDay(new Date(currentDate.getTime()));
                                 currentSchedule.setUnloading(true);
@@ -112,7 +114,7 @@ public class Port {
 
         }
 
-            plannedSchedule.calculateEveryPenalty(currentDate);
+        plannedSchedule.calculateEveryPenalty(currentDate);
 
 
 
@@ -132,10 +134,7 @@ public class Port {
         cranes
                 .forEach((key, value) -> {
                     System.out.println("Type:" + key);
-                    value.forEach(crane -> {
-                        System.out.println(crane + "\n");
-
-                    });
+                    value.forEach(crane -> System.out.println(crane + "\n"));
                 });
     }
 
@@ -203,13 +202,11 @@ public class Port {
 
 
     private void calculateStatistic() {
-        statistic = new Statistic(getAllSchedulesAfterUnload());
+        statistic = new Statistic(getAllSchedulesAfterUnload(), cranes);
         System.out.println(statistic);
     }
 
-    public Statistic getStatistic() {
-        return statistic;
-    }
+
 
     private  List<ShipSchedule> getAllSchedulesAfterUnload() {
         List<ShipSchedule> allSchedules   = new ArrayList<>();
@@ -226,13 +223,14 @@ public class Port {
 
     }
 
+    public Statistic getStatistic() {
+        return statistic;
+    }
 
     public long getCranesCost(CargoType type) {
-        return cranes.get(type)
-                .stream()
-                .mapToLong(Crane::getCost)
-                .sum();
+        return statistic.getCranesCost(type);
     }
+
 
 
     public long getTotalPenaltyByType(CargoType type) {
@@ -240,5 +238,20 @@ public class Port {
             return 0;
         }
         return this.statistic.calculatePenaltiesByType(type);
+    }
+
+
+    public int getShipCount() {
+        return plannedSchedule.getShipCount();
+    }
+
+
+
+
+    @Override
+    public String toString() {
+        return  "plannedSchedule:\n" + plannedSchedule +
+                "Cranes: \n" + cranes +
+                "date: \n" + currentDate ;
     }
 }

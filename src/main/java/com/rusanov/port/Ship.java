@@ -1,4 +1,4 @@
-package com.rusanov.port.shedule;
+package com.rusanov.port;
 
 
 public class Ship {

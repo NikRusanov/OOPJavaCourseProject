@@ -1,15 +1,15 @@
-package com.rusanov.port.shedule;
+package com.rusanov.port;
 
 import com.rusanov.UtilsDate;
+import com.rusanov.cranes.Crane;
+import com.rusanov.port.schedule.ShipSchedule;
 
-import java.util.ArrayList;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.LongSummaryStatistics;
+import java.util.*;
 
 public class Statistic {
 
     List<ShipSchedule> scheduleDays;
+    private HashMap<CargoType, List<Crane>> cranes;
 
     private long unloadedShips;
     private IntSummaryStatistics statisticsQueue;
@@ -26,8 +26,9 @@ public class Statistic {
 
 
 
-    public Statistic(List<ShipSchedule> schedules) {
+    public Statistic(List<ShipSchedule> schedules, HashMap<CargoType, List<Crane>> cranes) {
         this.scheduleDays = schedules;
+        this.cranes = cranes;
         init();
     }
 
@@ -52,10 +53,8 @@ public class Statistic {
 
     private void setAllPenaltiesByTypes() {
         totalBulkPenalty = calculatePenaltiesByType(CargoType.BULK);
-        totalContainerPenalty = calculatePenaltiesByType(CargoType.CONTAINER) +
-                calculatePenaltiesByType(CargoType.CONTAINER);
-        totalLiquidPenalty = calculatePenaltiesByType(CargoType.LIQUID) +
-                calculatePenaltiesByType(CargoType.LIQUID);
+        totalContainerPenalty = calculatePenaltiesByType(CargoType.CONTAINER);
+        totalLiquidPenalty = calculatePenaltiesByType(CargoType.LIQUID);
     }
 
     public long calculatePenaltiesByType(CargoType type) {
@@ -118,8 +117,21 @@ public class Statistic {
 
 
 
+    public long getCranesCost(CargoType type) {
+        return cranes.get(type)
+                .stream()
+                .mapToLong(Crane::getCost)
+                .sum();
+    }
 
 
+    public long getCranesCost() {
+        long sum = 0 ;
+        for (var type : CargoType.values()) {
+            sum+=getCranesCost(type) ;
+        }
+        return sum;
+    }
 
     @Override
     public String toString() {
@@ -132,6 +144,14 @@ public class Statistic {
                 "\nШтраф по сыпучим грузам: " + totalBulkPenalty +
                 "\nШтраф по контейнерным грузам: " + totalContainerPenalty +
                 "\nШтраф по жидким грузам: " + totalLiquidPenalty +
-                "\nИтоговый Штраф:" + totalPenalty;
+                "\nИтоговый Штраф:" + totalPenalty +
+                "\n Стоимость кранов: " + getCranesCost() +
+                "\nКоличество жидких кранов: " + getCranesCount(CargoType.LIQUID) +
+                "\nКоличество сыпучих кранов: " + getCranesCount(CargoType.BULK) +
+                "\nКоличество контейнерных кранов: " + getCranesCount(CargoType.CONTAINER)  ;
+    }
+
+    private int getCranesCount(CargoType type) {
+        return  cranes.get(type).size() ;
     }
 }

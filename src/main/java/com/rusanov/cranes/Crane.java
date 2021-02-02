@@ -1,7 +1,7 @@
 package com.rusanov.cranes;
 
-import com.rusanov.port.shedule.CargoType;
-import com.rusanov.port.shedule.Ship;
+import com.rusanov.port.CargoType;
+import com.rusanov.port.Ship;
 
 public  class  Crane {
 

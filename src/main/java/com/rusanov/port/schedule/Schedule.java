@@ -1,6 +1,8 @@
-package com.rusanov.port.shedule;
+package com.rusanov.port.schedule;
 
 import com.rusanov.UtilsDate;
+import com.rusanov.port.CargoType;
+import com.rusanov.port.Ship;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -13,8 +15,11 @@ public class Schedule {
     private List<ShipSchedule> schedule = new ArrayList<>();
     private  Date startModelingDate;
 
+
+    private  int shipCount;
     private  final ArrayList<CargoType>  cargoTypes= new ArrayList<>();
     public Schedule(int shipCount, Date startModelingDay) {
+        this.shipCount = shipCount;
         cargoTypes.add(CargoType.BULK);
         cargoTypes.add(CargoType.CONTAINER);
         cargoTypes.add(CargoType.LIQUID);
@@ -46,6 +51,7 @@ public class Schedule {
         }
             startModelingDate = new Date(old.getStartModelingDate().getTime());
             schedule = new ArrayList<>(newSchedule);
+            this.shipCount = old.getShipCount();
 
     }
 
@@ -77,7 +83,7 @@ public class Schedule {
 
     private int calculateUnloadingDelay() {
         //TODO delete seed , added for debug
-        Random random = new Random(253);
+        Random random = new Random();
         return random.nextInt(10);
     }
 
@@ -86,15 +92,13 @@ public class Schedule {
         int randomCargoType =(int) Math.round(getRandom(0, 2));
         CargoType currentType = cargoTypes.get(randomCargoType);
         double weight =  getRandomWeight(currentType);
-        Ship newShip =  new  Ship("ShipName", weight, currentType);
-        return newShip;
+        return new  Ship("ShipName", weight, currentType);
     }
 
 
 
     private  double getRandom(int min, int max) {
-        // TODO delete seed
-        Random random = new Random(253);
+        Random random = new Random();
         double randomNormalValue =  random.nextGaussian() * 3.5;
         if( randomNormalValue < min ) randomNormalValue = min;
         if (randomNormalValue > max) randomNormalValue = max;
@@ -150,7 +154,9 @@ public class Schedule {
     }
 
 
-
+    public int getShipCount() {
+        return shipCount;
+    }
 
 
 

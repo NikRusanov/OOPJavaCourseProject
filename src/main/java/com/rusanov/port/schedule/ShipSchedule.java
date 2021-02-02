@@ -1,6 +1,7 @@
-package com.rusanov.port.shedule;
+package com.rusanov.port.schedule;
 
 import com.rusanov.UtilsDate;
+import com.rusanov.port.Ship;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
@@ -149,7 +150,7 @@ public class ShipSchedule  {
     }
 
     public  void calculatePenalty(Date realDate) {
-        long daysDelay = 0 ;
+        long daysDelay ;
         daysDelay = UtilsDate.daysBetween(plannedUnloadingEndDay, realDate);
         penalty = daysDelay * 1000;
     }
