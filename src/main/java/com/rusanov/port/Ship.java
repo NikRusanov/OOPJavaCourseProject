@@ -30,7 +30,7 @@ public class Ship {
         return String.format("""
                 Судно:%s\s
                  Тип: %s\s
-                 Вес: %5.2f""", shipName, type, cargoWeight);
+                 Вес: %5.2f""", shipName, type.getTypeName(), cargoWeight);
     }
 
     public void setName(String name) {

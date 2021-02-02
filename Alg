@@ -1,6 +1,6 @@
-1.0 Генерировать расписание с массивом из ShedulePosition,
+1.0 Генерировать расписание с массивом из SchedulePosition,
 в котором заполняются поля:
-    1.1. День прибытия(ShedulePosition.exceptedArrival)
+    1.1. День прибытия(SchedulePosition.exceptedArrival)
     1.2. Название судна(Ship.shipName)
     1.3. Вид груза(Ship.type)
     1.4. Вес груза(Ship.cargoWeight)

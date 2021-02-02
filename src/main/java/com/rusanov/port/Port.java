@@ -57,10 +57,6 @@ public class Port {
         }
     }
 
-    public HashMap<CargoType, List<Crane>> getCranes() {
-        return cranes;
-    }
-
     public void modeling() {
         int countOfModelingDays = 30;
         System.out.println("START MODELING");
@@ -97,14 +93,7 @@ public class Port {
             }
             iterateUnload();
             currentDate = UtilsDate.addDays(currentDate,1);
-//
-//            System.out.println("===================================================================");
-//            System.out.println("Schedule in iterate:\n");
-//            System.out.println(plannedSchedule);
-//            System.out.println("===================================================================");
-//            System.out.println("===================================================================");
-//            System.out.println("Cranes status:\n");
-//            debugPrintCranes();
+
             System.out.println("===================================================================");
 
 
@@ -130,13 +119,6 @@ public class Port {
 
 
 
-    private void debugPrintCranes() {
-        cranes
-                .forEach((key, value) -> {
-                    System.out.println("Type:" + key);
-                    value.forEach(crane -> System.out.println(crane + "\n"));
-                });
-    }
 
 
     private void iterateUnload() {
@@ -223,10 +205,6 @@ public class Port {
 
     }
 
-    public Statistic getStatistic() {
-        return statistic;
-    }
-
     public long getCranesCost(CargoType type) {
         return statistic.getCranesCost(type);
     }
@@ -239,13 +217,6 @@ public class Port {
         }
         return this.statistic.calculatePenaltiesByType(type);
     }
-
-
-    public int getShipCount() {
-        return plannedSchedule.getShipCount();
-    }
-
-
 
 
     @Override

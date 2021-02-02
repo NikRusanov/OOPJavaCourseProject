@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 public class ShipSchedule  {
 
@@ -64,42 +63,21 @@ public class ShipSchedule  {
         return cal.getTime();
     }
 
-    private int calculateUnloadingDelay() {
-        Random random = new Random();
-        return random.nextInt(10);
-    }
-
     public Ship getArrivedShip() {
         return arrivedShip;
-    }
-
-    public void setArrivedShip(Ship arrivedShip) {
-        this.arrivedShip = arrivedShip;
     }
 
     public Date getExceptedArrival() {
         return exceptedArrival;
     }
 
-    public void setExceptedArrival(Date exceptedArrival) {
-        this.exceptedArrival = exceptedArrival;
-    }
-
     public Date getRealArrival() {
         return realArrival;
-    }
-
-    public void setRealArrival(Date realArrival) {
-        this.realArrival = realArrival;
     }
 
 
     public int getPlannedUnloadingDays() {
         return plannedUnloadingDays;
-    }
-
-    public void setPlannedUnloadingDays(int plannedUnloadingDays) {
-        this.plannedUnloadingDays = plannedUnloadingDays;
     }
 
     public Date getUnloadingStartDay() {
@@ -110,15 +88,6 @@ public class ShipSchedule  {
         this.unloadingStartDay = unloadingStartDay;
     }
 
-
-
-    public Date getPlannedUnloadingEndDay() {
-        return plannedUnloadingEndDay;
-    }
-
-    public void setPlannedUnloadingEndDay(Date plannedUnloadingEndDay) {
-        this.plannedUnloadingEndDay = plannedUnloadingEndDay;
-    }
 
     public boolean isUnloading() {
         return isUnloading;
@@ -136,18 +105,10 @@ public class ShipSchedule  {
         totalDaysPassedInQueue+=1;
     }
 
-    public void setTotalDaysPassedInQueue(Integer totalDaysPassedInQueue) {
-        this.totalDaysPassedInQueue = totalDaysPassedInQueue;
-    }
-
     public double getPenalty() {
         return penalty;
     }
 
-
-    public void setPenalty(double penalty) {
-        this.penalty = penalty;
-    }
 
     public  void calculatePenalty(Date realDate) {
         long daysDelay ;
@@ -158,7 +119,7 @@ public class ShipSchedule  {
 
     @Override
     public String toString() {
-        return "ShipShedule{" +
+        return "ShipSchedule\n" +
                 "arrivedShip=" + arrivedShip +
                 "\n exceptedArrival=" + exceptedArrival +
                 "\n realArrival=" + realArrival +

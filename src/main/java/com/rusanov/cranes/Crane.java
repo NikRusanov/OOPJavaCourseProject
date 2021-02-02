@@ -3,13 +3,13 @@ package com.rusanov.cranes;
 import com.rusanov.port.CargoType;
 import com.rusanov.port.Ship;
 
-public  class  Crane {
+public class Crane {
 
 
     private final CargoType type;
     private boolean busy;
-    private    Long id;
-    private  double unloadSpeed;
+    private Long id;
+    private double unloadSpeed;
     private final long cost;
 
     private Ship shipToUnload;
@@ -26,7 +26,7 @@ public  class  Crane {
         this.cost = cost;
     }
 
-    public Crane(double unloadSpeed, CargoType type ) {
+    public Crane(double unloadSpeed, CargoType type) {
         this(type, unloadSpeed, 19000);
     }
 
@@ -42,17 +42,12 @@ public  class  Crane {
         unloadSpeed = type.getLoadSpeed();
     }
 
-    public CargoType getType() {
-        return type;
-    }
-
-
 
     public boolean isBusy() {
         return busy;
     }
 
-    public  void setBusy(boolean status) {
+    public void setBusy(boolean status) {
         busy = status;
     }
 
@@ -60,11 +55,12 @@ public  class  Crane {
         this.shipToUnload = ship;
         setBusy(true);
     }
-    public  void unload() {
+
+    public void unload() {
         double currentWeightToUnload = shipToUnload.getCargoWeight();
-        if ( currentWeightToUnload >= unloadSpeed) {
+        if (currentWeightToUnload >= unloadSpeed) {
             shipToUnload.setCargoWeight(currentWeightToUnload - unloadSpeed);
-        } else  {
+        } else {
             shipToUnload.setCargoWeight(0);
         }
     }
@@ -77,7 +73,7 @@ public  class  Crane {
     @Override
     public String toString() {
         return "\n" +
-                "type:" + type +
+                "type:" + type.getTypeName() +
                 "\n busy: " + busy +
                 "\n, ID: " + id +
                 "\n unloadSpeed: " + unloadSpeed +

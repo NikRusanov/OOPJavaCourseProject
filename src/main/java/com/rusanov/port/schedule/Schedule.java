@@ -149,10 +149,6 @@ public class Schedule {
         return schedule;
     }
 
-    public void setSchedule(List<ShipSchedule> schedule) {
-        this.schedule = schedule;
-    }
-
 
     public int getShipCount() {
         return shipCount;
