@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         Date date = new Date(System.currentTimeMillis());
 
-        ScheduleFactory scheduleFactory = new ScheduleFactory(10, date);
+        ScheduleFactory scheduleFactory = new ScheduleFactory(5, date);
 
         Map<CargoType, Integer> cranesCount = new HashMap<>();
         cranesCount.put(CargoType.BULK, 1 );
@@ -30,7 +30,10 @@ public class Main {
                     bulkCount,
                     liquidCount,
                     containerCount);
+//            System.out.println("Port:");
+//            System.out.println(port);
             port.modeling();
+
 
             for (var type : CargoType.values()) {
                 var penalty = port.getTotalPenaltyByType(type);

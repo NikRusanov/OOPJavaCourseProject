@@ -18,19 +18,24 @@ public class Schedule {
 
     private  int shipCount;
     private  final ArrayList<CargoType>  cargoTypes= new ArrayList<>();
+
+
     public Schedule(int shipCount, Date startModelingDay) {
+
         this.shipCount = shipCount;
+
         cargoTypes.add(CargoType.BULK);
         cargoTypes.add(CargoType.CONTAINER);
         cargoTypes.add(CargoType.LIQUID);
         this.startModelingDate = startModelingDay;
+
         if(shipCount < 0) {
             shipCount = 2;
         }
+
         for(int i = 0; i < shipCount; ++i) {
             ShipSchedule curShipSchedule = getRandomSchedule();
 
-            //TODO изменить имена
             curShipSchedule.getArrivedShip().setName("Ship №" + i);
             schedule.add(curShipSchedule);
         }
@@ -49,9 +54,9 @@ public class Schedule {
                     oldShipSchedules.getPlannedUnloadingDays(),
                     oldShipSchedules.getDelay()));
         }
-            startModelingDate = new Date(old.getStartModelingDate().getTime());
-            schedule = new ArrayList<>(newSchedule);
-            this.shipCount = old.getShipCount();
+        startModelingDate = new Date(old.getStartModelingDate().getTime());
+        schedule = new ArrayList<>(newSchedule);
+        this.shipCount = old.getShipCount();
 
     }
 
@@ -82,7 +87,6 @@ public class Schedule {
     }
 
     private int calculateUnloadingDelay() {
-        //TODO delete seed , added for debug
         Random random = new Random();
         return random.nextInt(10);
     }

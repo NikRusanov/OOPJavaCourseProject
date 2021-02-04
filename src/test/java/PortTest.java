@@ -72,8 +72,5 @@ public class PortTest {
         Schedule scheduleCopy = new Schedule(schedule);
         Port port = new Port(schedule, 1, 1, 1);
         port.modeling();
-
-
-
     }
 }

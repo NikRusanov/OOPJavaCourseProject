@@ -73,9 +73,9 @@ public class Port {
                             .filter(crane -> !crane.isBusy() )
                             .findFirst().ifPresentOrElse(crane -> {
                                 //            System.out.println("=================Crane TYPE:================\n" + crane.getType());
-                                System.out.println("=========================================");
-                                System.out.println("==========Added to unload!!!!!===========");
-                                System.out.println("=========================================");
+//                                System.out.println("=========================================");
+//                                System.out.println("==========Added to unload!!!!!===========");
+//                                System.out.println("=========================================");
                                 System.out.println("Unloading Ship: " + currentSchedule.getArrivedShip().getShipName());
                                 //System.out.println("Current Crane:\n" + crane);
                                 crane.setShip(currentSchedule.getArrivedShip());
@@ -221,8 +221,8 @@ public class Port {
 
     @Override
     public String toString() {
-        return  "plannedSchedule:\n" + plannedSchedule +
-                "Cranes: \n" + cranes +
-                "date: \n" + currentDate ;
+        return  "Расписание:\n" + plannedSchedule +
+                "Краны: \n" + cranes +
+                "Дата: \n" + currentDate ;
     }
 }
